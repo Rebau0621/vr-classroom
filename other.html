@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>其他教室</title>
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+  </head>
+  <body style="margin:0; background:#000;">
+    <a-scene>
+
+      <a-assets>
+        <img id="bg" src="images/other/OT.JPG">
+        <img id="t111" src="images/other/111.png">
+        <img id="t121" src="images/other/121.png">
+        <img id="t131" src="images/other/131.png">
+        <img id="t141" src="images/other/141.png">
+        <img id="t151" src="images/other/151.png">
+        <img id="t161" src="images/other/161.png">
+        <img id="t171" src="images/other/171.png">
+        <img id="btn_teacher"    src="images/buttons/btn_teacher.png">
+        <img id="btn_voice"      src="images/buttons/btn_voice.png">
+        <img id="btn_back_lobby" src="images/buttons/btn_back_lobby.png">
+      </a-assets>
+
+      <!-- 360 背景 -->
+      <a-sky src="#bg"></a-sky>
+
+      <!-- 教師資訊面板（預設隱藏） -->
+      <a-entity id="teacher-panel" visible="false">
+        <a-box position="-0.3 3.3 -3.5" width="2.5" height="1.5" depth="0.05" color="#111111"></a-box>
+        <a-image id="teacher-img" src="#t111" position="-0.3 3.3 -3.43" width="2.4" height="1.4"></a-image>
+      </a-entity>
+
+      <!-- 第一排：7位老師按鈕 -->
+      <a-box position="-2.7 2.1 -4" width="0.55" height="0.35" depth="0.05" color="#0A9396" onclick="showTeacher('t111')"></a-box>
+      <a-text value="1" position="-2.7 2.1 -3.93" align="center" color="white" width="2"></a-text>
+
+      <a-box position="-1.9 2.1 -4" width="0.55" height="0.35" depth="0.05" color="#0A9396" onclick="showTeacher('t121')"></a-box>
+      <a-text value="2" position="-1.9 2.1 -3.93" align="center" color="white" width="2"></a-text>
+
+      <a-box position="-1.1 2.1 -4" width="0.55" height="0.35" depth="0.05" color="#0A9396" onclick="showTeacher('t131')"></a-box>
+      <a-text value="3" position="-1.1 2.1 -3.93" align="center" color="white" width="2"></a-text>
+
+      <a-box position="-0.3 2.1 -4" width="0.55" height="0.35" depth="0.05" color="#0A9396" onclick="showTeacher('t141')"></a-box>
+      <a-text value="4" position="-0.3 2.1 -3.93" align="center" color="white" width="2"></a-text>
+
+      <a-box position="0.5 2.1 -4" width="0.55" height="0.35" depth="0.05" color="#0A9396" onclick="showTeacher('t151')"></a-box>
+      <a-text value="5" position="0.5 2.1 -3.93" align="center" color="white" width="2"></a-text>
+
+      <a-box position="1.3 2.1 -4" width="0.55" height="0.35" depth="0.05" color="#0A9396" onclick="showTeacher('t161')"></a-box>
+      <a-text value="6" position="1.3 2.1 -3.93" align="center" color="white" width="2"></a-text>
+
+      <a-box position="2.1 2.1 -4" width="0.55" height="0.35" depth="0.05" color="#0A9396" onclick="showTeacher('t171')"></a-box>
+      <a-text value="7" position="2.1 2.1 -3.93" align="center" color="white" width="2"></a-text>
+
+      <!-- 第二排：教師資訊（置中） -->
+      <a-box position="-0.3 1.6 -4" width="1.5" height="0.4" depth="0.05" color="#ffffff"></a-box>
+      <a-image src="#btn_teacher" position="-0.3 1.6 -3.93" width="1.3" height="0.3""></a-image>
+
+      <!-- 第三排：語音介紹 + 返回大廳 -->
+      <a-box position="-1.9 1.1 -4" width="1.5" height="0.4" depth="0.05" color="#ffffff" onclick="playAudio()"></a-box>
+      <a-image src="#btn_voice" position="-1.9 1.1 -3.93" width="1.3" height="0.3" onclick="playAudio()"></a-image>
+
+      <a-box position="1.3 1.1 -4" width="1.5" height="0.4" depth="0.05" color="#ffffff" onclick="goBack()"></a-box>
+      <a-image src="#btn_back_lobby" position="1.3 1.1 -3.93" width="1.3" height="0.3" onclick="goBack()"></a-image>
+
+      <!-- 相機 -->
+      <a-camera position="0 1.6 0" wasd-controls="enabled: false">
+  <a-cursor color="white" fuse="true" fuse-timeout="2000"></a-cursor>
+</a-camera>
+
+    </a-scene>
+
+    <script>
+      const lang = localStorage.getItem('lang') || 'zh';
+
+      const speech = {
+        zh: '旁邊是工具機大樓，是系上主要大樓。裡面包含教室、系辦公室及連鎖咖啡廳。這些是系上的其他老師，每位都有不同的領域。',
+        en: 'Next to us is the Machine Tool Building, the main building of the department. It contains classrooms, the department office, and a chain coffee shop. These are other teachers in the department, each with different areas of expertise.'
+      };
+
+      function playAudio() {
+        window.speechSynthesis.cancel();
+        const utter = new SpeechSynthesisUtterance(speech[lang]);
+        utter.lang = lang === 'zh' ? 'zh-TW' : 'en-US';
+        utter.rate = 0.9;
+        window.speechSynthesis.speak(utter);
+      }
+
+      let teacherVisible = false;
+        function showTeacher(id) {
+        const panel = document.querySelector('#teacher-panel');
+        const img = document.querySelector('#teacher-img');
+  
+      if (teacherVisible && img.getAttribute('src') === '#' + id) {
+        panel.setAttribute('visible', false);
+        teacherVisible = false;
+      } else {
+        img.setAttribute('src', '#' + id);
+        panel.setAttribute('visible', true);
+        teacherVisible = true;
+  }
+}
+
+      function toggleTeacher() {
+        teacherVisible = !teacherVisible;
+        document.querySelector('#teacher-panel').setAttribute('visible', teacherVisible);
+      }
+
+
+      function goBack() {
+        window.speechSynthesis.cancel();
+        window.location.href = lang === 'zh' ? 'lobby.html' : 'lobby_en.html';
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>K216 Laboratory for Computational Intelligence</title>
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+  </head>
+  <body style="margin:0; background:#000;">
+    <a-scene>
+      <a-assets>
+        <img id="view1" src="images/K216/216 1.JPG">
+        <img id="view2" src="images/K216/216 2.JPG">
+        <img id="view3" src="images/K216/216 3.JPG">
+        <img id="teacher" src="images/K216/K216 2.png">
+      </a-assets>
+
+      <a-sky id="sky" src="#view1"></a-sky>
+
+      <a-entity id="teacher-panel" visible="false">
+        <a-box position="0 2.0 -3.93" width="2.5" height="1.5" depth="0.05" color="#111111"></a-box>
+        <a-image src="#teacher" position="0 2.0 -3.9" width="2.4" height="1.4"></a-image>
+      </a-entity>
+
+      <!-- 教室切換視角提示 -->
+      <a-text value="Classroom Info" position="0 1 -3.93" align="center" color="#000000" width="3"></a-text>
+
+      <a-box position="-2.5 2.1 -4" width="1.5" height="0.4" depth="0.05" color="#ffffff" onclick="toggleTeacher()"></a-box>
+      <a-text value="Teacher Info" position="-2.5 2.1 -3.93" align="center" color="#000000" width="3"></a-text>
+
+      <a-box position="-2.5 1.6 -4" width="1.5" height="0.4" depth="0.05" color="#ffffff" onclick="playAudio()"></a-box>
+      <a-text value="Audio Guide" position="-2.5 1.6 -3.93" align="center" color="#000000" width="3"></a-text>
+
+      <a-box position="-1 0.5 -4" width="0.9" height="0.4" depth="0.05" color="#ffffff" onclick="changeView(1)"></a-box>
+      <a-text value="Front" position="-1 0.5 -3.93" align="center" color="#000000" width="2.5"></a-text>
+
+      <a-box position="0 0.5 -4" width="0.9" height="0.4" depth="0.05" color="#ffffff" onclick="changeView(2)"></a-box>
+      <a-text value="Mid" position="0 0.5 -3.93" align="center" color="#000000" width="2.5"></a-text>
+
+      <a-box position="1 0.5 -4" width="0.9" height="0.4" depth="0.05" color="#ffffff" onclick="changeView(3)"></a-box>
+      <a-text value="Back" position="1 0.5 -3.93" align="center" color="#000000" width="2.5"></a-text>
+
+      <a-box position="0 0.0 -4" width="1.5" height="0.4" depth="0.05" color="#0A9396" onclick="goBack()"></a-box>
+      <a-text value="Return" position="0 0.0 -3.93" align="center" color="white" width="3"></a-text>
+
+      <a-camera position="0 1.6 0" wasd-controls="enabled: false">
+        <a-cursor color="white" fuse="true" fuse-timeout="2000"></a-cursor>
+      </a-camera>
+    </a-scene>
+
+    <script>
+      const speech = 'Welcome to the Laboratory for Computational Intelligence K216, located in Guo Xiu Building. This lab combines edge computing with data engineering, data analysis, machine learning algorithms, and conducts industrial control security architecture training.';
+
+      function playAudio() {
+        window.speechSynthesis.cancel();
+        const utter = new SpeechSynthesisUtterance(speech);
+        utter.lang = 'en-US';
+        utter.rate = 0.9;
+        window.speechSynthesis.speak(utter);
+      }
+
+      function changeView(n) {
+        document.querySelector('#sky').setAttribute('src', '#view' + n);
+      }
+
+      let teacherVisible = false;
+      function toggleTeacher() {
+        teacherVisible = !teacherVisible;
+        document.querySelector('#teacher-panel').setAttribute('visible', teacherVisible);
+      }
+
+      let infoVisible = false;
+      function toggleInfo() {
+        infoVisible = !infoVisible;
+      }
+
+      function goBack() {
+        window.speechSynthesis.cancel();
+        window.location.href = 'lobby_en.html';
+      }
+    </script>
+  </body>
+</html>

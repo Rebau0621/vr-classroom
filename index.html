@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>VR 教室導覽</title>
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+  </head>
+  <body style="margin:0; background:#000;">
+    <a-scene>
+
+      <a-assets>
+        <img id="zhongwen" src="images/buttons/中文.png">
+      </a-assets>
+
+      <!-- 背景 -->
+      <a-sky color="#87CEEB"></a-sky>
+
+      <!-- 標題 -->
+      <a-text value="Choose Your Language" 
+              position="0 2.5 -4" 
+              align="center" 
+              color="white" 
+              width="8"
+              font="https://cdn.aframe.io/fonts/Exo2Bold.fnt">
+      </a-text>
+
+      <!-- English 按鈕 -->
+      <a-box position="-2 1.5 -4" 
+             width="2.5" height="0.7" depth="0.1" 
+             color="#ffffff"
+             onclick="selectLanguage('en')">
+      </a-box>
+      <a-text value="English" 
+              position="-2 1.5 -3.94" 
+              align="center" 
+              color="#000000" 
+              width="5">
+      </a-text>
+
+      <!-- 中文 按鈕 -->
+      <a-box position="2 1.5 -4" 
+       width="2.5" height="0.7" depth="0.1" 
+       color="#ffffff"
+       onclick="selectLanguage('zh')">
+      </a-box>
+      <a-image src="#zhongwen" 
+         position="2 1.5 -3.93" 
+         width="1.5" height="0.5"
+         onclick="selectLanguage('zh')">
+      </a-image>
+
+      <!-- 相機 -->
+      <a-camera position="0 1.6 0" wasd-controls="enabled: false">
+        <a-cursor color="white" 
+                  fuse="true" 
+                  fuse-timeout="2000">
+        </a-cursor>
+      </a-camera>
+
+    </a-scene>
+
+    <script>
+      function selectLanguage(lang) {
+  if (lang === 'en') {
+    window.location.href = 'lobby_en.html';
+  } else {
+    window.location.href = 'lobby.html';
+  }
+}
+    </script>
+  </body>
+</html>

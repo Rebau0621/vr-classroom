@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Other Classrooms</title>
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+  </head>
+  <body style="margin:0; background:#000;">
+    <a-scene>
+      <a-assets>
+        <img id="bg" src="images/other/OT.JPG">
+        <img id="t112" src="images/other/112.png">
+        <img id="t122" src="images/other/122.png">
+        <img id="t132" src="images/other/132.png">
+        <img id="t142" src="images/other/142.png">
+        <img id="t152" src="images/other/152.png">
+        <img id="t162" src="images/other/162.png">
+        <img id="t172" src="images/other/172.png">
+      </a-assets>
+
+      <a-sky src="#bg"></a-sky>
+
+      <a-entity id="teacher-panel" visible="false">
+        <a-box position="-0.3 3.3 -3.5" width="2.5" height="1.5" depth="0.05" color="#111111"></a-box>
+        <a-image id="teacher-img" src="#t112" position="-0.3 3.3 -3.43" width="2.4" height="1.4"></a-image>
+      </a-entity>
+
+      <!-- 第一排：7位老師按鈕 -->
+      <a-box position="-2.7 2.1 -4" width="0.55" height="0.35" depth="0.05" color="#0A9396" onclick="showTeacher('t112')"></a-box>
+      <a-text value="1" position="-2.7 2.1 -3.93" align="center" color="white" width="2"></a-text>
+
+      <a-box position="-1.9 2.1 -4" width="0.55" height="0.35" depth="0.05" color="#0A9396" onclick="showTeacher('t122')"></a-box>
+      <a-text value="2" position="-1.9 2.1 -3.93" align="center" color="white" width="2"></a-text>
+
+      <a-box position="-1.1 2.1 -4" width="0.55" height="0.35" depth="0.05" color="#0A9396" onclick="showTeacher('t132')"></a-box>
+      <a-text value="3" position="-1.1 2.1 -3.93" align="center" color="white" width="2"></a-text>
+
+      <a-box position="-0.3 2.1 -4" width="0.55" height="0.35" depth="0.05" color="#0A9396" onclick="showTeacher('t142')"></a-box>
+      <a-text value="4" position="-0.3 2.1 -3.93" align="center" color="white" width="2"></a-text>
+
+      <a-box position="0.5 2.1 -4" width="0.55" height="0.35" depth="0.05" color="#0A9396" onclick="showTeacher('t152')"></a-box>
+      <a-text value="5" position="0.5 2.1 -3.93" align="center" color="white" width="2"></a-text>
+
+      <a-box position="1.3 2.1 -4" width="0.55" height="0.35" depth="0.05" color="#0A9396" onclick="showTeacher('t162')"></a-box>
+      <a-text value="6" position="1.3 2.1 -3.93" align="center" color="white" width="2"></a-text>
+
+      <a-box position="2.1 2.1 -4" width="0.55" height="0.35" depth="0.05" color="#0A9396" onclick="showTeacher('t172')"></a-box>
+      <a-text value="7" position="2.1 2.1 -3.93" align="center" color="white" width="2"></a-text>
+
+      <!-- 語音介紹 + 返回大廳 -->
+      <!-- 標籤：不可點擊 -->
+<a-box position="-0.3 1.6 -4" width="1.5" height="0.4" depth="0.05" color="#ffffff"></a-box>
+<a-text value="Teacher Info" position="-0.3 1.6 -3.93" align="center" color="#000000" width="3"></a-text>
+
+      <a-box position="-1.9 1.1 -4" width="1.5" height="0.4" depth="0.05" color="#ffffff" onclick="playAudio()"></a-box>
+      <a-text value="Audio Guide" position="-1.9 1.1 -3.93" align="center" color="#000000" width="3"></a-text>
+
+      <a-box position="1.3 1.1 -4" width="1.5" height="0.4" depth="0.05" color="#0A9396" onclick="goBack()"></a-box>
+      <a-text value="Return" position="1.3 1.1 -3.93" align="center" color="white" width="3"></a-text>
+
+      <a-camera position="0 1.6 0" wasd-controls="enabled: false">
+        <a-cursor color="white" fuse="true" fuse-timeout="2000"></a-cursor>
+      </a-camera>
+    </a-scene>
+
+    <script>
+      const speech = 'Next to us is the Machine Tool Building, the main building of the department. It contains classrooms, the department office, and a chain coffee shop. These are other teachers in the department, each with different areas of expertise.';
+
+      function playAudio() {
+        window.speechSynthesis.cancel();
+        const utter = new SpeechSynthesisUtterance(speech);
+        utter.lang = 'en-US';
+        utter.rate = 0.9;
+        window.speechSynthesis.speak(utter);
+      }
+
+      let teacherVisible = false;
+      function showTeacher(id) {
+        const panel = document.querySelector('#teacher-panel');
+        const img = document.querySelector('#teacher-img');
+        if (teacherVisible && img.getAttribute('src') === '#' + id) {
+          panel.setAttribute('visible', false);
+          teacherVisible = false;
+        } else {
+          img.setAttribute('src', '#' + id);
+          panel.setAttribute('visible', true);
+          teacherVisible = true;
+        }
+      }
+
+      function goBack() {
+        window.speechSynthesis.cancel();
+        window.location.href = 'lobby_en.html';
+      }
+    </script>
+  </body>
+</html>

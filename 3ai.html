@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>3AI AI機器人實驗室</title>
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+  </head>
+  <body style="margin:0; background:#000;">
+    <a-scene>
+
+      <a-assets>
+        <img id="view1" src="images/3AI/3 1.jpg">
+        <img id="view2" src="images/3AI/3 2.jpg">
+        <img id="view3" src="images/3AI/3 3.jpg">
+        <img id="teacher" src="images/3AI/3AI 1.png">
+        <img id="btn_intro"      src="images/buttons/btn_intro.png">
+        <img id="btn_teacher"    src="images/buttons/btn_teacher.png">
+        <img id="btn_voice"      src="images/buttons/btn_voice.png">
+        <img id="btn_front"      src="images/buttons/btn_front.png">
+        <img id="btn_mid"        src="images/buttons/btn_mid.png">
+        <img id="btn_back"       src="images/buttons/btn_back.png">
+        <img id="btn_back_lobby" src="images/buttons/btn_back_lobby.png">
+      </a-assets>
+
+      <!-- 360 背景 -->
+      <a-sky id="sky" src="#view1"></a-sky>
+
+      <!-- 教師資訊面板（預設隱藏） -->
+      <a-entity id="teacher-panel" visible="false">
+        <a-box position="0 2.0 -3.93" width="2.5" height="1.5" depth="0.05" color="#111111"></a-box>
+        <a-image src="#teacher" position="0 2.0 -3.9" width="2.4" height="1.4"></a-image>
+      </a-entity>
+
+      <!-- 教室切換視角提示 -->
+      <a-image src="#btn_intro" position="0 1 -3.93" width="1.3" height="0.3" onclick="toggleInfo()"></a-image>
+
+      <!-- 教師資訊按鈕 -->
+      <a-box position="-2.5 2.1 -4" width="1.5" height="0.4" depth="0.05" color="#ffffff" onclick="toggleTeacher()"></a-box>
+      <a-image src="#btn_teacher" position="-2.5 2.1 -3.93" width="1.3" height="0.3" onclick="toggleTeacher()"></a-image>
+
+      <!-- 語音介紹按鈕 -->
+      <a-box position="-2.5 1.6 -4" width="1.5" height="0.4" depth="0.05" color="#ffffff" onclick="playAudio()"></a-box>
+      <a-image src="#btn_voice" position="-2.5 1.6 -3.93" width="1.3" height="0.3" onclick="playAudio()"></a-image>
+
+      <!-- 視角切換：前方 -->
+      <a-box position="-1 0.5 -4" width="0.9" height="0.4" depth="0.05" color="#ffffff" onclick="changeView(1)"></a-box>
+      <a-image src="#btn_front" position="-1 0.5 -3.93" width="0.7" height="0.3" onclick="changeView(1)"></a-image>
+
+      <!-- 視角切換：中間 -->
+      <a-box position="0 0.5 -4" width="0.9" height="0.4" depth="0.05" color="#ffffff" onclick="changeView(2)"></a-box>
+      <a-image src="#btn_mid" position="0 0.5 -3.93" width="0.5" height="0.3" onclick="changeView(2)"></a-image>
+
+      <!-- 視角切換：後方 -->
+      <a-box position="1 0.5 -4" width="0.9" height="0.4" depth="0.05" color="#ffffff" onclick="changeView(3)"></a-box>
+      <a-image src="#btn_back" position="1 0.5 -3.93" width="0.7" height="0.3" onclick="changeView(3)"></a-image>
+
+      <!-- 返回大廳 -->
+      <a-box position="0 0.0 -4" width="1.5" height="0.4" depth="0.05" color="#ffffff" onclick="goBack()"></a-box>
+      <a-image src="#btn_back_lobby" position="0 0.0 -3.93" width="1.3" height="0.3" onclick="goBack()"></a-image>
+
+      <!-- 相機 -->
+      <a-camera position="0 1.6 0" wasd-controls="enabled: false">
+        <a-cursor color="white" fuse="true" fuse-timeout="2000"></a-cursor>
+      </a-camera>
+
+    </a-scene>
+
+    <script>
+      const lang = localStorage.getItem('lang') || 'zh';
+
+      const speech = {
+        zh: '歡迎來到AI機器人實驗室。本實驗室位於國秀樓3樓K305，以ROS人工智慧發展實務訓練為主軸，應用於智慧可穿戴設備、智慧搜索、智慧機器人等領域，並提供亞馬遜AI賽車發展實務訓練。',
+        en: 'Welcome to the AI Robotics Laboratory K305. This lab focuses on ROS AI development training, applied to smart wearables, intelligent search, and robotics. It also offers Amazon AI racing development training.'
+      };
+
+      function playAudio() {
+        window.speechSynthesis.cancel();
+        const utter = new SpeechSynthesisUtterance(speech[lang]);
+        utter.lang = lang === 'zh' ? 'zh-TW' : 'en-US';
+        utter.rate = 0.9;
+        window.speechSynthesis.speak(utter);
+      }
+
+      function changeView(n) {
+        document.querySelector('#sky').setAttribute('src', '#view' + n);
+      }
+
+      let teacherVisible = false;
+      function toggleTeacher() {
+        teacherVisible = !teacherVisible;
+        document.querySelector('#teacher-panel').setAttribute('visible', teacherVisible);
+      }
+
+      let infoVisible = false;
+      function toggleInfo() {
+        infoVisible = !infoVisible;
+        document.querySelector('#info-panel').setAttribute('visible', infoVisible);
+      }
+
+      function goBack() {
+        window.speechSynthesis.cancel();
+        window.location.href = lang === 'zh' ? 'lobby.html' : 'lobby_en.html';
+      }
+    </script>
+  </body>
+</html>

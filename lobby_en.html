@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>VR Classroom Tour - Lobby</title>
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+  </head>
+  <body style="margin:0; background:#000;">
+    <a-scene>
+
+      <a-assets>
+        <img id="lobby1" src="images/lobby/lobby1.jpg">
+        <img id="lobby2" src="images/lobby/lobby2.jpg">
+        <img id="lobby3" src="images/lobby/lobby3.jpg">
+        <img id="lobby4" src="images/lobby/lobby4.jpg">
+        
+      </a-assets>
+
+      <!-- 360 背景（自動輪播） -->
+      <a-sky id="sky" src="#lobby1"></a-sky>
+
+      <!-- 標題 -->
+      <a-box position="0 3.2 -6" width="5" height="0.7" depth="0.05" color="#ffffff"></a-box>
+      <a-text value="Classroom Tour" position="0 3.2 -5.93" align="center" color="#000000" width="8"
+              font="https://cdn.aframe.io/fonts/Exo2Bold.fnt"></a-text>
+
+      <!-- 第一排按鈕：SOB114 / KB105 / K216 / 其他教室 -->
+      <a-box position="-4 1.8 -5" width="1.8" height="0.6" depth="0.1" color="#ffffff" onclick="goTo('sob114')"></a-box>
+      <a-text value="SOB114" position="-4 1.8 -4.94" align="center" color="#000000" width="4"></a-text>
+
+      <a-box position="-1.5 1.8 -5" width="1.8" height="0.6" depth="0.1" color="#ffffff" onclick="goTo('kb105')"></a-box>
+      <a-text value="KB105" position="-1.5 1.8 -4.94" align="center" color="#000000" width="4"></a-text>
+
+      <a-box position="1.5 1.8 -5" width="1.8" height="0.6" depth="0.1" color="#ffffff" onclick="goTo('k216')"></a-box>
+      <a-text value="K216" position="1.5 1.8 -4.94" align="center" color="#000000" width="4"></a-text>
+
+      <a-box position="4 1.8 -5" width="1.8" height="0.6" depth="0.1" color="#ffffff" onclick="goTo('other')" class="clickable"></a-box>
+      <a-text value="Other" position="4 1.8 -4.94" align="center" color="#000000" width="4"></a-text>
+
+      <!-- 第二排按鈕：3AI / VA403 / K502 -->
+      <a-box position="-2.5 1.0 -5" width="1.8" height="0.6" depth="0.1" color="#ffffff" onclick="goTo('3ai')"></a-box>
+      <a-text value="3AI" position="-2.5 1.0 -4.94" align="center" color="#000000" width="4"></a-text>
+
+      <a-box position="0 1.0 -5" width="1.8" height="0.6" depth="0.1" color="#ffffff" onclick="goTo('va403')"></a-box>
+      <a-text value="VA403" position="0 1.0 -4.94" align="center" color="#000000" width="4"></a-text>
+
+      <a-box position="2.5 1.0 -5" width="1.8" height="0.6" depth="0.1" color="#ffffff" onclick="goTo('k502')"></a-box>
+      <a-text value="K502" position="2.5 1.0 -4.94" align="center" color="#000000" width="4"></a-text>
+
+      <!-- 語音按鈕 -->
+      <a-box position="-1.2 0.2 -5" width="1.8" height="0.5" depth="0.1" color="#0A9396" onclick="playAudio()"></a-box>
+<a-text value="Audio Guide" position="-1.2 0.2 -4.94" align="center" color="white" width="4"></a-text>
+
+      <!-- 返回語言選擇 -->
+      <a-box position="1.2 0.2 -5" width="1.8" height="0.5" depth="0.1" color="#0A9396" onclick="goBack()"></a-box>
+<a-text value="Return" position="1.2 0.2 -4.94" align="center" color="white" width="4"></a-text>
+
+
+      <!-- 相機 -->
+      <a-camera position="0 1.6 0" wasd-controls="enabled: false">
+        <a-cursor color="white" fuse="true" fuse-timeout="2000"></a-cursor>
+      </a-camera>
+
+    </a-scene>
+
+    <script>
+      localStorage.setItem('lang', 'en');
+
+      const photos = ['#lobby1', '#lobby2', '#lobby3', '#lobby4'];
+      let current = 0;
+      const sky = document.querySelector('#sky');
+
+      setInterval(() => {
+        current = (current + 1) % photos.length;
+        sky.setAttribute('src', photos[current]);
+      }, 5000);
+
+      function playAudio() {
+        window.speechSynthesis.cancel();
+        const utter = new SpeechSynthesisUtterance('Welcome to the Department of Artificial Intelligence and Computer Engineering at National Chin-Yi University of Technology. Please select a classroom to visit.');
+        utter.lang = 'en-US';
+        utter.rate = 0.9;
+        window.speechSynthesis.speak(utter);
+      }
+
+      function goTo(room) {
+  window.location.href = room + '_en.html';
+}
+
+      function goBack() {
+        window.location.href = 'index.html';
+      }
+    </script>
+  </body>
+</html>
